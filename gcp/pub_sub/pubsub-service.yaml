@@ -1,0 +1,14 @@
+resources:
+- name: my-pubsub-topic
+  type: gcp-types/pubsub-v1:projects.topics
+  properties:
+    topic: my-topic
+
+- name: my-pubsub-subscription
+  type: gcp-types/pubsub-v1:projects.subscriptions
+  properties:
+    subscription: my-subscription
+    topic: $(ref.my-pubsub-topic.name)
+    ackDeadlineSeconds: 10
+    pushConfig:
+      pushEndpoint: https://example.com/push-endpoint
