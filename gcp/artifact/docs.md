@@ -42,4 +42,19 @@ docker push us-west1-docker.pkg.dev/imperial-data-430618-p9/quickstart-docker-re
 
 
 ```bash
+us-central1-docker.pkg.dev/imperial-data-430618-p9/test-console-bnt
+```
+
+
+
+Repaso completo para carga de imagenes:
+
+```bash
+docker build -t image_name .
+
+gcloud auth configure-docker ZONE-docker.pkg.dev
+
+docker tag name zona-docker-pkg.dev/project/repositorio/imagen 
+
+docker push zona-docker-pkg.dev/project/repositorio/imagen
 ```

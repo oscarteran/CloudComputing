@@ -1,0 +1,62 @@
+{% set LOGBUCKET = "log-bucket-" + env["deployment"]  %}
+{% set MAIN_BUCKET = "bucket-" + env["deployment"] %}
+{% set STORAGE_QUOTA_BYTES = 100 * 1024 * 1024 * 1024 %}  # 100 GB en bytes
+
+resources:
+- type: gcp-types/storage-v1:buckets
+  name: {{ LOGBUCKET }}
+  properties:
+    predefinedAcl: projectPrivate
+    projection: full
+    location: US
+    storageClass: STANDARD
+
+- type: gcp-types/storage-v1:buckets
+  name: {{ MAIN_BUCKET }}
+  properties:
+    predefinedAcl: projectPrivate
+    projection: full
+    location: US
+    storageClass: STANDARD
+    defaultObjectAcl:
+      - bucket: {{ MAIN_BUCKET }}
+        domain: www.google.com
+        email: scoobydoo@google.com
+        entity: project-editors-657686986194
+        role: READER
+        projectTeam:
+          team: editors
+          projectNumber: 657686986194
+    cors:
+      - maxAgeSeconds: 10
+        method:
+          - GET
+          - POST
+          - OPTIONS
+        origin:
+          - '*'
+        responseHeader:
+          - Content-Type
+          - Last-Modified
+          - Expires
+    lifecycle:
+      rule:
+        - action:
+            type: Delete
+          condition:
+            age: 30
+            isLive: true
+        - action:
+            type: Delete
+          condition:
+            isLive: false
+            numNewerVersions: 3
+    logging:
+      logBucket: $(ref.{{ LOGBUCKET }}.name)
+      logObjectPrefix: log-prefix
+    versioning:
+      enabled: true
+    website:
+      mainPageSuffix: http://www.google.com/
+      notFoundpage: http://www.google.com/not-found
+    quotaInBytes: {{ STORAGE_QUOTA_BYTES }}

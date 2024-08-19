@@ -1,0 +1,20 @@
+resources:
+- name: my-bigquery-dataset
+  type: gcp-types/bigquery-v2:datasets
+  properties:
+    location: US
+    access:
+    - role: READER
+      specialGroup: projectReaders
+    - role: WRITER
+      specialGroup: projectWriters
+    - role: OWNER
+      specialGroup: projectOwners
+    datasetReference:
+      datasetId: my_dataset
+    defaultTableExpirationMs: null
+    description: "Dataset for BigQuery with 0.2 TB storage"
+    labels:
+      environment: development
+    # Nota: No podemos definir directamente un límite de almacenamiento para el dataset,
+    # pero podemos configurar una cuota de proyecto más adelante

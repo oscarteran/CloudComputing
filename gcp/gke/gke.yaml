@@ -10,7 +10,4 @@ resources:
         machineType: e2-medium # In this section we describe net and subnet. Must be exists before create instance 
       network: https://www.googleapis.com/compute/v1/projects/imperial-data-430618-p9/global/networks/test-bnt   
       subnetwork: https://www.googleapis.com/compute/v1/projects/imperial-data-430618-p9/regions/us-central1/subnetworks/test-bnt-1
-      # # Access Config required to give the instance a public IP address
-      # accessConfigs:
-      # - name: External NAT
-      #   type: ONE_TO_ONE_NAT
+
