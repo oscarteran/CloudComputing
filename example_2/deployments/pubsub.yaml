@@ -1,0 +1,14 @@
+imports:
+  - path: pubsub.jinja
+
+resources:
+  - name: pubsub
+    type: pubsub.jinja
+    properties:
+      topicName: my-pubsub-storage
+      subscriptionName: my-pubsub-subscription1
+      messageRetentionDuration: "1200s"
+      retainAckedMessages: true
+      ackDeadlineSeconds: 60
+      expirationPolicy:
+        ttl: "86400s"
